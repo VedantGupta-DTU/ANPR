@@ -5,3 +5,4 @@ output/
 *.onnx
 *.pt
 test_images/
+edge_sim/edge_env/
