@@ -1,0 +1,271 @@
+{
+    "BaseStation": [
+        {
+            "attributes": {
+                "id": 1,
+                "coordinates": [
+                    0,
+                    0
+                ],
+                "active": true
+            },
+            "relationships": {}
+        }
+    ],
+    "NetworkSwitch": [
+        {
+            "attributes": {
+                "id": 1,
+                "coordinates": [
+                    0,
+                    0
+                ],
+                "active": true
+            },
+            "relationships": {}
+        }
+    ],
+    "EdgeServer": [
+        {
+            "attributes": {
+                "id": 1,
+                "available": true,
+                "model_name": "Raspberry Pi 4",
+                "cpu": 4,
+                "memory": 4096,
+                "disk": 32000,
+                "cpu_demand": 0,
+                "memory_demand": 0,
+                "disk_demand": 0,
+                "coordinates": [
+                    0,
+                    0
+                ],
+                "max_concurrent_layer_downloads": 3,
+                "active": true,
+                "power_model_parameters": {
+                    "max_power_consumption": 7,
+                    "static_power_percentage": 0.4
+                }
+            },
+            "relationships": {
+                "power_model": "LinearServerPowerModel",
+                "base_station": {
+                    "class": "BaseStation",
+                    "id": 1
+                },
+                "network_switch": {
+                    "class": "NetworkSwitch",
+                    "id": 1
+                },
+                "services": [],
+                "container_layers": [],
+                "container_images": [],
+                "container_registries": []
+            }
+        },
+        {
+            "attributes": {
+                "id": 2,
+                "available": true,
+                "model_name": "Cloud Server",
+                "cpu": 16,
+                "memory": 32000,
+                "disk": 1000000,
+                "cpu_demand": 0,
+                "memory_demand": 0,
+                "disk_demand": 0,
+                "coordinates": [
+                    1,
+                    1
+                ],
+                "max_concurrent_layer_downloads": 10,
+                "active": true,
+                "power_model_parameters": {
+                    "max_power_consumption": 200,
+                    "static_power_percentage": 0.5
+                }
+            },
+            "relationships": {
+                "power_model": "LinearServerPowerModel",
+                "base_station": {
+                    "class": "BaseStation",
+                    "id": 1
+                },
+                "network_switch": {
+                    "class": "NetworkSwitch",
+                    "id": 1
+                },
+                "services": [],
+                "container_layers": [],
+                "container_images": [],
+                "container_registries": [
+                    {
+                        "class": "ContainerRegistry",
+                        "id": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "Application": [
+        {
+            "attributes": {
+                "id": 1,
+                "label": "OCR-App"
+            },
+            "relationships": {
+                "services": [
+                    {
+                        "class": "Service",
+                        "id": 1
+                    }
+                ],
+                "users": [
+                    {
+                        "class": "User",
+                        "id": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "Service": [
+        {
+            "attributes": {
+                "id": 1,
+                "label": "OCR-Service",
+                "state": 0,
+                "_available": true,
+                "cpu_demand": 2,
+                "memory_demand": 1024,
+                "image_digest": "sha256:dummy"
+            },
+            "relationships": {
+                "application": {
+                    "class": "Application",
+                    "id": 1
+                },
+                "server": null
+            }
+        }
+    ],
+    "User": [
+        {
+            "attributes": {
+                "id": 1,
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "relationships": {
+                "applications": [
+                    {
+                        "class": "Application",
+                        "id": 1
+                    }
+                ],
+                "base_station": {
+                    "class": "BaseStation",
+                    "id": 1
+                },
+                "access_patterns": {
+                    "1": {
+                        "class": "CircularDurationAndIntervalAccessPattern",
+                        "id": 1
+                    }
+                }
+            }
+        }
+    ],
+    "CircularDurationAndIntervalAccessPattern": [
+        {
+            "attributes": {
+                "id": 1,
+                "duration_values": [
+                    1000000
+                ],
+                "interval_values": [
+                    0
+                ],
+                "history": [
+                    {
+                        "start": 1,
+                        "end": 1000000,
+                        "duration": 1000000,
+                        "waiting_time": 0,
+                        "access_time": 0,
+                        "interval": 0,
+                        "next_access": 1000000
+                    }
+                ]
+            },
+            "relationships": {
+                "user": {
+                    "class": "User",
+                    "id": 1
+                },
+                "app": {
+                    "class": "Application",
+                    "id": 1
+                }
+            }
+        }
+    ],
+    "ContainerLayer": [
+        {
+            "attributes": {
+                "id": 1,
+                "size": 1,
+                "digest": "sha256:layer1"
+            },
+            "relationships": {
+                "container_registries": [
+                    {
+                        "class": "ContainerRegistry",
+                        "id": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "ContainerImage": [
+        {
+            "attributes": {
+                "id": 1,
+                "digest": "sha256:dummy",
+                "layers_digests": [
+                    "sha256:layer1"
+                ]
+            },
+            "relationships": {
+                "container_layers": [
+                    {
+                        "class": "ContainerLayer",
+                        "id": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "ContainerRegistry": [
+        {
+            "attributes": {
+                "id": 1
+            },
+            "relationships": {
+                "server": {
+                    "class": "EdgeServer",
+                    "id": 2
+                },
+                "container_layers": [
+                    {
+                        "class": "ContainerLayer",
+                        "id": 1
+                    }
+                ]
+            }
+        }
+    ]
+}
