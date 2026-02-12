@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+output/
+.DS_Store
+*.onnx
+*.pt
+test_images/

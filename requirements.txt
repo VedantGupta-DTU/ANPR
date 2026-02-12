@@ -1,0 +1,25 @@
+# License Plate OCR Pipeline - Dependencies
+
+# YOLO for detection
+ultralytics>=8.0.0
+
+# DeepSeek OCR-2 dependencies
+transformers==4.46.3
+tokenizers==0.20.3
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Image processing
+opencv-python>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# OCR utilities
+PyMuPDF
+img2pdf
+einops
+easydict
+addict
+
+# For flash attention (optional, GPU only)
+# flash-attn>=2.0.0  # Uncomment if you have CUDA GPU
